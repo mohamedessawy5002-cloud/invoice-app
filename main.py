@@ -15,7 +15,6 @@ def safe_md5(*args, **kwargs):
 
 hashlib.md5 = safe_md5
 
-from flask import Flask, request, send_file, render_template_string, redirect
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 
