@@ -34,7 +34,7 @@ def login():
                 "email": email,
                 "password": password
             })
-            return "Login successful ✅"
+            return redirect("/")
         except Exception as e:
             return f"Login failed ❌: {str(e)}"
 
