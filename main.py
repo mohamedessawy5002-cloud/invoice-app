@@ -2,6 +2,7 @@ import hashlib
 import io
 import json
 import os
+from flask import Flask, request, send_file, render_template_string, redirect, session
 from supabase import create_client
 from html import escape as html_escape
 from datetime import datetime
@@ -19,6 +20,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 
 app = Flask(__name__)
+app.secret_key = "any-secret-key"
 SUPABASE_URL = "https://phwpliltbkmirhqoqsvf.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBod3BsaWx0YmttaXJocW9xc3ZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDE0MzAsImV4cCI6MjA5MjcxNzQzMH0.NCOBnIRn6aA_zEs2lpGsCPpAO7sABuPO2gDYj4dms9k"
 
@@ -34,6 +36,7 @@ def login():
                 "email": email,
                 "password": password
             })
+            session['user'] = email
             return redirect("/")
         except Exception as e:
             return f"Login failed ❌: {str(e)}"
@@ -45,6 +48,11 @@ def login():
         <button type="submit">Login</button>
     </form>
     '''
+@app.route("/")
+def home():
+    if "user" not in session:
+        return redirect("/login")
+    return "welcome to your app"
 MR_FILE = "mr_data.json"
 CUSTOMERS_FILE = "customers.json"
 INVOICES_FILE = "invoices.json"
