@@ -47,11 +47,7 @@ def login():
         <button type="submit">Login</button>
     </form>
     '''
-@app.route("/")
-def home():
-    if "user" not in session:
-        return redirect("/login")
-    return "welcome to your app"
+
 MR_FILE = "mr_data.json"
 CUSTOMERS_FILE = "customers.json"
 INVOICES_FILE = "invoices.json"
