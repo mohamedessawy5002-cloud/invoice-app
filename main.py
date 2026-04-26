@@ -23,6 +23,28 @@ SUPABASE_URL = "https://phwpliltbkmirhqoqsvf.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBod3BsaWx0YmttaXJocW9xc3ZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDE0MzAsImV4cCI6MjA5MjcxNzQzMH0.NCOBnIRn6aA_zEs2lpGsCPpAO7sABuPO2gDYj4dms9k"
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        try:
+            user = supabase.auth.sign_in_with_password({
+                "email": email,
+                "password": password
+            })
+            return "Login successful ✅"
+        except Exception as e:
+            return f"Login failed ❌: {str(e)}"
+
+    return '''
+    <form method="post">
+        Email: <input name="email"><br>
+        Password: <input name="password" type="password"><br>
+        <button type="submit">Login</button>
+    </form>
+    '''
 MR_FILE = "mr_data.json"
 CUSTOMERS_FILE = "customers.json"
 INVOICES_FILE = "invoices.json"
