@@ -1050,7 +1050,7 @@ Email:<br><input name="email"><br>
 <td>{{ customer.phone }}</td>
 <td>{{ customer.fax }}</td>
 <td>{{ customer.email }}</td>
-<td><a href="/customers/edit/{{ key }}">Edit</a></td>
+<td><a href="/customers/edit/{{ customer.key }}">Edit</a></td>
 <td>
 <form method="post" action="/customers/delete/{{ key }}" onsubmit="return confirm('Delete this customer?');">
 <button type="submit">Delete</button>
@@ -1082,7 +1082,7 @@ button { padding: 8px 14px; }
 <h2>Edit Customer</h2>
 
 <div class="box">
-<form method="post" action="/customers/update/{{ key }}">
+<form method="post" action="/customers/update/{{ customer.key }}">
 Name:<br><input name="name" value="{{ customer.name }}"><br>
 Address:<br><input name="address" value="{{ customer.address }}"><br>
 Phone:<br><input name="phone" value="{{ customer.phone }}"><br>
