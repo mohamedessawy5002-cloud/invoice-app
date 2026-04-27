@@ -1042,16 +1042,16 @@ Email:<br><input name="email"><br>
 </tr>
 </thead>
 <tbody>
-{% for key, customer in customers.items() %}
+{%  customer in customers %}
 <tr>
 <td>{{ customer.name }}</td>
 <td>{{ customer.address }}</td>
 <td>{{ customer.phone }}</td>
 <td>{{ customer.fax }}</td>
 <td>{{ customer.email }}</td>
-<td><a href="/customers/edit/{{ key }}">Edit</a></td>
+<td><a href="/customers/edit/{{ customer.id }}">Edit</a></td>
 <td>
-<form method="post" action="/customers/delete/{{ key }}" onsubmit="return confirm('Delete this customer?');">
+<form method="post" action="/customers/delete/{{customer.id }}" onsubmit="return confirm('Delete this customer?');">
 <button type="submit">Delete</button>
 </form>
 </td>
@@ -1814,14 +1814,15 @@ def customers_update(customer_key):
     save_customers(customers)
     return redirect("/customers")
 
-@app.route("/customers/delete/<customer_key>", methods=["POST"])
-def customers_delete(customer_key):
-    customers = load_customers()
-    if customer_key in customers:
-        del customers[customer_key]
-        save_customers(customers)
-    return redirect("/customers")
+@app.route("/customers/delete/<int:customer_id>", methods=["POST"])
+def customers_delete(customer_id):
+    try:
+        supabase.table("customers").delete().eq("id", customer_id).execute()
+    except Exception as e:
+        print("DELETE CUSTOMER ERROR:", e)
 
+    return redirect("/customers")
+    
 @app.route("/banks")
 def banks_home():
     return render_template_string(BANKS_HTML, banks=load_banks())
