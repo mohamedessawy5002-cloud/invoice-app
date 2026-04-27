@@ -1049,11 +1049,11 @@ Email:<br><input name="email"><br>
 <td>{{ customer.phone }}</td>
 <td>{{ customer.fax }}</td>
 <td>{{ customer.email }}</td>
-<td><a href="/customers/edit/{{ customer.id }}">Edit</a></td>
+<a href="/customers/edit/{{ customer.name }}">Edit</a>
 <td>
-<form method="post" action="/customers/delete/{{customer.id }}" onsubmit="return confirm('Delete this customer?');">
+<form method="post" action="/customers/delete/{{ customer.name }}" onsubmit="return confirm('Delete this customer?');">
 <button type="submit">Delete</button>
-</form>
+</form>>
 </td>
 </tr>
 {% endfor %}
@@ -1814,10 +1814,10 @@ def customers_update(customer_key):
     save_customers(customers)
     return redirect("/customers")
 
-@app.route("/customers/delete/<int:customer_id>", methods=["POST"])
-def customers_delete(customer_id):
+@app.route("/customers/delete/<customer_key>", methods=["POST"])
+def customers_delete(customer_key):
     try:
-        supabase.table("customers").delete().eq("id", customer_id).execute()
+        supabase.table("customers").delete().eq("name", customer_key).execute()
     except Exception as e:
         print("DELETE CUSTOMER ERROR:", e)
 
