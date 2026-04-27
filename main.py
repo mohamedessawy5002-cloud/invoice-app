@@ -1082,7 +1082,7 @@ button { padding: 8px 14px; }
 <h2>Edit Customer</h2>
 
 <div class="box">
-<form method="post" action="/customers/update/{{ customer_key }}">
+<form method="post" action="/customers/update/{{ key }}">
 Name:<br><input name="name" value="{{ customer.name }}"><br>
 Address:<br><input name="address" value="{{ customer.address }}"><br>
 Phone:<br><input name="phone" value="{{ customer.phone }}"><br>
@@ -1782,7 +1782,7 @@ def customers_save():
     save_customer_from_form(request.form)
     return redirect("/customers")
 
-@app.route("/customers/edit/<customer_key>")
+@app.route("/customers/edit/<customer_key>")                                                                
 def customers_edit(customer_key):
     customers = load_customers()
     customer = customers.get(customer_key)
@@ -1793,26 +1793,24 @@ def customers_edit(customer_key):
 @app.route("/customers/update/<customer_key>", methods=["POST"])
 def customers_update(customer_key):
     customers = load_customers()
+    customer = customers.get(customer_key)
 
-    # If name changed, create a new key and remove the old one
+    # نجيب الاسم الجديد وننضفه
     new_name = request.form.get("name", "").strip()
-    if not new_name:
+
+    # لو مفيش عميل أو الاسم فاضي نرجع
+    if not customer or not new_name:
         return redirect("/customers")
 
-    new_key = make_customer_key(new_name)
-
-    if customer_key in customers and new_key != customer_key:
-        del customers[customer_key]
-
-    customers[new_key] = {
+    # update في Supabase
+    supabase.table("customers").update({
         "name": new_name,
         "address": request.form.get("address", ""),
         "phone": request.form.get("phone", ""),
         "fax": request.form.get("fax", ""),
         "email": request.form.get("email", "")
-    }
+    }).eq("name", customer.get("name")).execute()
 
-    save_customers(customers)
     return redirect("/customers")
 
 @app.route("/customers/delete/<customer_key>", methods=["POST"])
