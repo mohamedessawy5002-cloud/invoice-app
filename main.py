@@ -1042,18 +1042,18 @@ Email:<br><input name="email"><br>
 </tr>
 </thead>
 <tbody>
-{%  for customer in customers %}
+{% for key, customer in customers.items() %}
 <tr>
 <td>{{ customer.name }}</td>
 <td>{{ customer.address }}</td>
 <td>{{ customer.phone }}</td>
 <td>{{ customer.fax }}</td>
 <td>{{ customer.email }}</td>
-<a href="/customers/edit/{{ customer['name'] }}">Edit</a>
+<td><a href="/customers/edit/{{ key }}">Edit</a></td>
 <td>
-<form method="post" action="/customers/delete/{{ customer['name'] }}" onsubmit="return confirm('Delete this customer?');">
+<form method="post" action="/customers/delete/{{ key }}" onsubmit="return confirm('Delete this customer?');">
 <button type="submit">Delete</button>
-</form>>
+</form>
 </td>
 </tr>
 {% endfor %}
