@@ -1817,7 +1817,9 @@ def customers_update(customer_key):
 @app.route("/customers/delete/<customer_key>", methods=["POST"])
 def customers_delete(customer_key):
     try:
-        supabase.table("customers").delete().eq("name", customer_key).execute()
+        print("DELETE CUSTOMER:", customer_key)
+        result = supabase.table("customers").delete().eq("name", customer_key).execute()
+        print("DELETE RESULT:", result)
     except Exception as e:
         print("DELETE CUSTOMER ERROR:", e)
 
