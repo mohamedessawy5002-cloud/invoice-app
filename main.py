@@ -236,26 +236,47 @@ def save_invoice_from_form(form):
 
 
 def load_mr_data():
-    if not os.path.exists(MR_FILE):
-        save_mr_data(DEFAULT_MR)
-        return DEFAULT_MR
+    try:
+        res = supabase.table("mr_data").select("*").execute()
+        rows = res.data or []
 
-    with open(MR_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)
+        data = {}
+        for row in rows:
+            key = row.get("mr_code")
+            data[key] = {
+                "molar_ratio": row.get("molar_ratio", ""),
+                "sodium_oxide": row.get("sodium_oxide", ""),
+                "silicon_oxide": row.get("silicon_oxide", ""),
+                "total_solid": row.get("total_solid", ""),
+                "characters": row.get("characters", ""),
+                "color": row.get("color", "")
+            }
 
-    for mr in data.values():
-        mr.setdefault("molar_ratio", "")
-        mr.setdefault("sodium_oxide", "")
-        mr.setdefault("silicon_oxide", "")
-        mr.setdefault("total_solid", "")
-        mr.setdefault("characters", "")
-        mr.setdefault("color", "")
+        return data
 
-    return data
+    except Exception as e:
+        print("LOAD MR ERROR:", e)
+        return {}
 
 def save_mr_data(data):
-    with open(MR_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
+    try:
+        # نمسح القديم
+        supabase.table("mr_data").delete().neq("mr_code", "").execute()
+
+        # نضيف الجديد
+        for key, val in data.items():
+            supabase.table("mr_data").insert({
+                "mr_code": key,
+                "molar_ratio": val.get("molar_ratio", ""),
+                "sodium_oxide": val.get("sodium_oxide", ""),
+                "silicon_oxide": val.get("silicon_oxide", ""),
+                "total_solid": val.get("total_solid", ""),
+                "characters": val.get("characters", ""),
+                "color": val.get("color", "")
+            }).execute()
+
+    except Exception as e:
+        print("SAVE MR ERROR:", e)
 
 def to_float(v):
     try:
