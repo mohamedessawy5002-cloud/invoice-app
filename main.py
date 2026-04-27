@@ -108,6 +108,7 @@ def load_customers():
         for c in res.data:
             key = make_customer_key(c.get("name", ""))
             customers[key] = {
+                "key":key,
                 "name": c.get("name", ""),
                 "address": c.get("address", ""),
                 "phone": c.get("phone", ""),
@@ -1816,12 +1817,16 @@ def customers_update(customer_key):
 
 @app.route("/customers/delete/<customer_key>", methods=["POST"])
 def customers_delete(customer_key):
-    try:
-        print("DELETE CUSTOMER:", customer_key)
-        result = supabase.table("customers").delete().eq("name", customer_key).execute()
-        print("DELETE RESULT:", result)
-    except Exception as e:
-        print("DELETE CUSTOMER ERROR:", e)
+    customers = load_customers()
+    customer = customers.get(customer_key)
+
+    print("KEY:", customer_key)
+
+    if customer:
+        print("REAL NAME:", customer.get("name"))
+
+        res = supabase.table("customers").delete().eq("name", customer.get("name")).execute()
+        print("DELETE RESULT:", res.data)
 
     return redirect("/customers")
     
