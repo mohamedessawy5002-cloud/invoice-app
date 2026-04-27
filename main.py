@@ -773,7 +773,7 @@ th { background: #f3f3f3; }
 </td>
 <td><a href="/invoice/edit/{{ idx }}">Edit</a></td>
 <td>
-<form method="post" action="/invoice/delete/{{ idx }}" onsubmit="return confirm('Delete this invoice from history?');">
+<form method="post" action="/invoice/delete/{{ inv.id }}" onsubmit="return confirm('Delete this invoice from history?');">
 <button type="submit">Delete</button>
 </form>
 </td>
@@ -1646,12 +1646,13 @@ def download_saved_invoice(invoice_index, doc_type):
     buffer.seek(0)
     return send_file(buffer, as_attachment=True, download_name=filename)
 
-@app.route("/invoice/delete/<int:invoice_index>", methods=["POST"])
-def delete_invoice(invoice_index):
-    invoices = load_invoices()
-    if 0 <= invoice_index < len(invoices):
-        del invoices[invoice_index]
-        save_json_file(INVOICES_FILE, invoices)
+@app.route("/invoice/delete/<int:invoice_id>", methods=["POST"])
+def delete_invoice(invoice_id):
+    try:
+        supabase.table("invoices").delete().eq("id", invoice_id).execute()
+    except Exception as e:
+        print("DELETE INVOICE ERROR:", e)
+
     return redirect("/history")
 
 
