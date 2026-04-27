@@ -1042,7 +1042,7 @@ Email:<br><input name="email"><br>
 </tr>
 </thead>
 <tbody>
-{%  for customer in customers.values() %}
+{%  for customer in customers %}
 <tr>
 <td>{{ customer.name }}</td>
 <td>{{ customer.address }}</td>
