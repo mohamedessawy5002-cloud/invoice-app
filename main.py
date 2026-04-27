@@ -1049,9 +1049,9 @@ Email:<br><input name="email"><br>
 <td>{{ customer.phone }}</td>
 <td>{{ customer.fax }}</td>
 <td>{{ customer.email }}</td>
-<a href="/customers/edit/{{ customer.name }}">Edit</a>
+<a href="/customers/edit/{{ customer['name'] }}">Edit</a>
 <td>
-<form method="post" action="/customers/delete/{{ customer.name }}" onsubmit="return confirm('Delete this customer?');">
+<form method="post" action="/customers/delete/{{ customer['name'] }}" onsubmit="return confirm('Delete this customer?');">
 <button type="submit">Delete</button>
 </form>>
 </td>
