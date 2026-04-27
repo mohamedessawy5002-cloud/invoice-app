@@ -154,6 +154,7 @@ def load_banks():
         for b in res.data:
             key = make_bank_key(b.get("name", ""))
             banks[key] = {
+                "key":key,
                 "name": b.get("name", ""),
                 "account": b.get("account", ""),
                 "iban": b.get("iban", ""),
@@ -1151,7 +1152,7 @@ Bank Address:<br><input name="bank_address"><br>
 <td>{{ bank.iban }}</td>
 <td>{{ bank.swift }}</td>
 <td>{{ bank.address }}</td>
-<td><a href="/banks/edit/{{ key }}">Edit</a></td>
+<td><a href="/banks/edit/{{ bank.key }}">Edit</a></td>
 <td>
 <form method="post" action="/banks/delete/{{ key }}" onsubmit="return confirm('Delete this bank?');">
 <button type="submit">Delete</button>
@@ -1183,7 +1184,7 @@ button { padding: 8px 14px; }
 <h2>Edit Bank</h2>
 
 <div class="box">
-<form method="post" action="/banks/update/{{ bank_key }}">
+<form method="post" action="/banks/update/{{ bank.key }}">
 Bank Name:<br><input name="bank_name" value="{{ bank.name }}"><br>
 Account No:<br><input name="account" value="{{ bank.account }}"><br>
 IBAN No:<br><input name="iban" value="{{ bank.iban }}"><br>
