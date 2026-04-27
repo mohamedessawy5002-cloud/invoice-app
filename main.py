@@ -919,7 +919,13 @@ Supplier Origin:<br><input name="supplier_origin" value="{{ g('supplier_origin',
 HS Code:<br><input name="hs" value="{{ g('hs') }}"><br>
 </div>
 
-<button type="submit">Generate Edited Copy</button>
+<button type="submit" formaction="/invoice/update/{{ invoice_id }}">
+Update Same Invoice
+</button>
+
+<button type="submit" formaction="/generate">
+Save as New Invoice
+</button>
 </form>
 
 <br>
@@ -1478,6 +1484,7 @@ def edit_invoice(invoice_index):
 
     invoice = invoices[invoice_index]
     saved = invoice.get("form_data", {})
+    
 
     if not saved:
         saved = {
@@ -1513,8 +1520,33 @@ def edit_invoice(invoice_index):
         products=products,
         mr_data=load_mr_data(),
         customers=load_customers(),
-        banks=load_banks()
+        banks=load_banks(),
+        invoice_id=invoice.get("id")
     )
+    
+@app.route("/invoice/update/<int:invoice_id>", methods=["POST"])
+def update_invoice(invoice_id):
+    common = get_common_data(request.form)
+    data = {
+        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "proforma_no": request.form.get("proforma_no", ""),
+        "commercial_no": request.form.get("commercial_no", ""),
+        "date": request.form.get("date", ""),
+        "po": request.form.get("po", ""),
+        "customer": request.form.get("name", ""),
+        "selected_mr": request.form.get("selected_mr", ""),
+        "products": common["products"],
+        "grand_total": common["grand_total"],
+        "gross_weight": common["gross_weight"],
+        "form_data": form_to_saved_data(request.form)
+    }
+
+    try:
+        supabase.table("invoices").update(data).eq("id", invoice_id).execute()
+    except Exception as e:
+        print("UPDATE INVOICE ERROR:", e)
+
+    return redirect("/history")
 
 
 class SavedForm:
