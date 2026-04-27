@@ -898,23 +898,6 @@ MR:<br>
 <option value="{{ mr }}" {% if g('selected_mr') == mr %}selected{% endif %}>{{ mr }}</option>
 {% endfor %}
 </select><br>
-<h4>MR List</h4>
-
-{% for mr_code in mr_data.keys() %}
-
-<div style="margin-bottom:5px;">
-    
-    {{ mr_code }}
-    
-    <a href="/mr/delete/{{ mr_code }}" 
-       onclick="return confirm('متأكد عايز تمسح؟')"
-       style="color:red; margin-left:10px;">
-       Delete
-    </a>
-
-</div>
-
-{% endfor %}
 
 Lot Number:<br><input name="lot_number" value="{{ g('lot_number') }}"><br>
 </div>
@@ -1581,14 +1564,6 @@ def update_invoice(invoice_id):
         print("UPDATE INVOICE ERROR:", e)
 
     return redirect("/history")
-@app.route("/mr/delete/<mr_code>")
-def delete_mr(mr_code):
-    try:
-        supabase.table("mr_data").delete().eq("mr_code", mr_code).execute()
-    except Exception as e:
-        print("DELETE MR ERROR:", e)
-
-    return redirect("/mr")
 
 
 class SavedForm:
