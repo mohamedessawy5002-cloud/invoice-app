@@ -260,8 +260,12 @@ def load_mr_data():
 
 def save_mr_data(data):
     try:
+        # نمسح القديم
+        supabase.table("mr_data").delete().neq("mr_code", "").execute()
+
+        # نضيف الجديد
         for key, val in data.items():
-            supabase.table("mr_data").upsert({
+            supabase.table("mr_data").insert({
                 "mr_code": key,
                 "molar_ratio": val.get("molar_ratio", ""),
                 "sodium_oxide": val.get("sodium_oxide", ""),
@@ -269,7 +273,7 @@ def save_mr_data(data):
                 "total_solid": val.get("total_solid", ""),
                 "characters": val.get("characters", ""),
                 "color": val.get("color", "")
-            }, on_conflict="mr_code").execute()
+            }).execute()
 
     except Exception as e:
         print("SAVE MR ERROR:", e)
