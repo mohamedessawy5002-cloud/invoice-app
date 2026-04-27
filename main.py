@@ -1798,7 +1798,7 @@ def customers_update(customer_key):
     # نجيب الاسم الجديد وننضفه
     new_name = request.form.get("name", "").strip()
 
-    # لو مفيش عميل أو الاسم فاضي نرجع
+    # مفيش عميل أو الاسم فاضي نرجع
     if not customer or not new_name:
         return redirect("/customers")
 
