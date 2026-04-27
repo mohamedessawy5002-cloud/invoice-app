@@ -1849,33 +1849,31 @@ def banks_edit(bank_key):
 @app.route("/banks/update/<bank_key>", methods=["POST"])
 def banks_update(bank_key):
     banks = load_banks()
+    bank = banks.get(bank_key)
 
     new_name = request.form.get("bank_name", "").strip()
-    if not new_name:
+
+    if not bank or not new_name:
         return redirect("/banks")
 
-    new_key = make_bank_key(new_name)
-
-    if bank_key in banks and new_key != bank_key:
-        del banks[bank_key]
-
-    banks[new_key] = {
+    supabase.table("banks").update({
         "name": new_name,
         "account": request.form.get("account", ""),
         "iban": request.form.get("iban", ""),
         "swift": request.form.get("swift", ""),
         "address": request.form.get("bank_address", "")
-    }
+    }).eq("name", bank.get("name", "")).execute()
 
-    save_banks(banks)
     return redirect("/banks")
 
 @app.route("/banks/delete/<bank_key>", methods=["POST"])
 def banks_delete(bank_key):
     banks = load_banks()
-    if bank_key in banks:
-        del banks[bank_key]
-        save_banks(banks)
+    bank = banks.get(bank_key)
+
+    if bank:
+        supabase.table("banks").delete().eq("name", bank.get("name", "")).execute()
+
     return redirect("/banks")
 
 if __name__ == "__main__":
