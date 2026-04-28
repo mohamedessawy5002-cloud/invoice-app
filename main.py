@@ -20,6 +20,10 @@ from reportlab.lib.pagesizes import A4
 
 app = Flask(__name__)
 app.secret_key = "any-secret-key"
+SUPABASE_URL = "https://phwpliltbkmirhqoqsvf.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBod3BsaWx0YmttaXJocW9xc3ZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDE0MzAsImV4cCI6MjA5MjcxNzQzMH0.NCOBnIRn6aA_zEs2lpGsCPpAO7sABuPO2gDYj4dms9k"
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # 👇 Users من Railway فقط
 USERS = {
     "Mohamed Essawy": os.getenv("APP_PASS_MOHAMED"),
@@ -51,10 +55,6 @@ def global_auth():
 
     if not auth or not check_auth(auth.username, auth.password):
         return authenticate()
-SUPABASE_URL = "https://phwpliltbkmirhqoqsvf.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBod3BsaWx0YmttaXJocW9xc3ZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDE0MzAsImV4cCI6MjA5MjcxNzQzMH0.NCOBnIRn6aA_zEs2lpGsCPpAO7sABuPO2gDYj4dms9k"
-
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 #@app.route('/login', methods=['GET', 'POST'])
 #def login():
