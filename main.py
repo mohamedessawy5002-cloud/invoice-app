@@ -20,9 +20,10 @@ from reportlab.lib.pagesizes import A4
 
 app = Flask(__name__)
 app.secret_key = "any-secret-key"
-SUPABASE_URL = "https://phwpliltbkmirhqoqsvf.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBod3BsaWx0YmttaXJocW9xc3ZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDE0MzAsImV4cCI6MjA5MjcxNzQzMH0.NCOBnIRn6aA_zEs2lpGsCPpAO7sABuPO2gDYj4dms9k"
-
+SUPABASE_URL = os.getenv("supabase_url")
+SUPABASE_KEY = os.getenv("supabase_key")
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise Exception("missing Supabase enviroment variables")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # 👇 Users من Railway فقط
 USERS = {
