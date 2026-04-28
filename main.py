@@ -2,7 +2,7 @@ import hashlib
 import io
 import json
 import os
-from flask import Flask, request, send_file, render_template_string, redirect, session
+from flask import Flask, request, Response, send_file, render_template_string, redirect, session
 from supabase import create_client
 from html import escape as html_escape
 from datetime import datetime
@@ -20,33 +20,65 @@ from reportlab.lib.pagesizes import A4
 
 app = Flask(__name__)
 app.secret_key = "any-secret-key"
+# 👇 Users من Railway فقط
+USERS = {
+    "Mohamed Essawy": os.getenv("APP_PASS_MOHAMED"),
+    "Omar Fayez": os.getenv("APP_PASS_OMAR")
+}
+
+def check_auth(username, password):
+    return (
+        username in USERS
+        and USERS[username] is not None
+        and USERS[username] == password
+    )
+
+def authenticate():
+    return Response(
+        'Login Required', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+    )
+
+# 🔐 حماية كل الموقع
+@app.before_request
+def global_auth():
+    open_paths = []  # لو عايز تستثني صفحات
+
+    if request.path in open_paths:
+        return
+
+    auth = request.authorization
+
+    if not auth or not check_auth(auth.username, auth.password):
+        return authenticate()
 SUPABASE_URL = "https://phwpliltbkmirhqoqsvf.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBod3BsaWx0YmttaXJocW9xc3ZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNDE0MzAsImV4cCI6MjA5MjcxNzQzMH0.NCOBnIRn6aA_zEs2lpGsCPpAO7sABuPO2gDYj4dms9k"
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
 
-        try:
-            user = supabase.auth.sign_in_with_password({
-                "email": email,
-                "password": password
-            })
-            session['user'] = email
-            return redirect("/")
-        except Exception as e:
-            return f"Login failed ❌: {str(e)}"
+#@app.route('/login', methods=['GET', 'POST'])
+#def login():
+   #if request.method == 'POST':
+      #  email = request.form['email']
+      #  password = request.form['password']
 
-    return '''
-    <form method="post">
-        Email: <input name="email"><br>
-        Password: <input name="password" type="password"><br>
-        <button type="submit">Login</button>
-    </form>
-    '''
+      #  try:
+          #  user = supabase.auth.sign_in_with_password({
+              # "email": email,
+            #    "password": password
+         #   })
+          #  session['user'] = email
+          #  return redirect("/")
+      #  except Exception as e:
+       #     return f"Login failed ❌: {str(e)}"
+
+  #  return '''
+   # <form method="post">
+     #   Email: <input name="email"><br>
+      #  Password: <input name="password" type="password"><br>
+     #   <button type="submit">Login</button>
+  #  </form>
+  #  '''
 
 MR_FILE = "mr_data.json"
 CUSTOMERS_FILE = "customers.json"
