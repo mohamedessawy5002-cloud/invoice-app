@@ -1257,7 +1257,7 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
     y = draw_wrapped(c, 60, y, customer_text, max_chars=60)
     y -= 10
     y = draw_wrapped(c, 60, y, f"Address: {form.get('address','')}", max_chars=55)
-    y -= 10
+    y -= 20
 
     c.drawString(60, y, f"Phone: {form.get('phone','')}")
     c.drawString(240, y, f"Fax: {form.get('fax','')}")
