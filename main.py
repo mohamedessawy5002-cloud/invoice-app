@@ -1480,14 +1480,7 @@ def draw_coa(c, form):
     text_width = c.stringWidth(text, "Helvetica-Bold", 12)
     c.line(60, y-2, 60 + text_width, y-2)
     y -= 20
-
-    left_x = 95
-    right_x = 500
-    top_y = y
-    row_h = 42
-    table_w = right_x - left_x
-    col_w = table_w / 2
-
+       
     rows = [
         ("Analysis", "Results"),
         ("Molar Ratio", details.get("molar_ratio", "")),
@@ -1497,6 +1490,15 @@ def draw_coa(c, form):
         ("Characters", details.get("characters", "")),
         ("Color", details.get("color", "")),
     ]
+    left_x = 95
+    right_x = 500
+    top_y = y
+    table_w = right_x - left_x
+    col_w = table_w / 2
+    bottom_limit = 90
+    available_h = top_y - bottom_limit
+    row_h = min(42, available_h / len(rows))
+    row_h = max(row_h, 30)
 
     table_h = row_h * len(rows)
     c.rect(left_x, top_y - table_h, table_w, table_h)
