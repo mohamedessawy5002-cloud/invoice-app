@@ -216,9 +216,12 @@ def save_bank_from_form(form):
         "swift": form.get("swift", ""),
         "address": form.get("bank_address", "")
     }
-
     try:
-        supabase.table("banks").insert(data).execute()
+        existing = supabase.table("banks").select("*").eq("name", data["name"]).execute()
+        if existing.data:
+            supabase.table("banks").update(data).eq("name", data["name"]).execute()
+        else:
+            supabase.table("banks").insert(data).execute()
     except Exception as e:
         print("SAVE BANK ERROR:", e)
 
