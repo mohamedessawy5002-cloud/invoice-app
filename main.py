@@ -1242,12 +1242,20 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
     c.drawCentredString(w / 2, 660, title)
 
     c.setFont("Helvetica", 10)
-    c.drawString(60, 600, f"Invoice: {invoice_no}")
+    if "PROFORMA" in title.upper():
+         label = "PROFORMA INVOICE NO:"
+    elif "COMMERCIAL" in title.upper():
+        label = "COMMERCIAL INVOICE NO:"
+    else:
+        label = "INVOICE NO:"
+
+c.drawString(60, 600, f"{label} {invoice_no}")
     c.drawString(340, 600, f"Date: {form.get('date','')}")
 
     y = 575
-    c.drawString(60, y, f"Customer: {form.get('name','')}")
-    y -= 14
+    customer_text = f"Customer: {form.get('name','')}"
+    y = draw_wrapped(c, 60, customer_text, max_chars=60_
+    y -= 10
     y = draw_wrapped(c, 60, y, f"Address: {form.get('address','')}", max_chars=58)
     y -= 18
 
@@ -1350,11 +1358,11 @@ def draw_packing_list(c, form, common):
     y = 600
     c.setFont("Helvetica", 10)
 
-    c.drawString(60, y, f"To: {form.get('name','')}")
-    y -= 14
-
-    y = draw_wrapped(c, 60, y, f"Address: {form.get('address','')}", max_chars=58)
-    y -= 14
+    to_text = f"To: {form.get('name','')}"
+    y = draw_wrapped(c, 60, y, to_text,max_chars=65)
+    y -= 10
+    y = draw_wrapped(c, 60, y, form.get("address", ""), max_chars=55)
+    y -= 10
 
     c.drawString(60, y, f"Tel: {form.get('phone','')}")
     y -= 14
