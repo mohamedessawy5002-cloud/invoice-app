@@ -1254,7 +1254,7 @@ c.drawString(60, 600, f"{label} {invoice_no}")
 
     y = 575
     customer_text = f"Customer: {form.get('name','')}"
-    y = draw_wrapped(c, 60, customer_text, max_chars=60)
+    y = draw_wrapped(c, 60, y, customer_text, max_chars=60)
     y -= 10
     y = draw_wrapped(c, 60, y, f"Address: {form.get('address','')}", max_chars=58)
     y -= 18
