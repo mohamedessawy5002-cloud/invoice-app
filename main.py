@@ -170,14 +170,12 @@ def save_customer_from_form(form):
     }
     try:
         existing = supabase.table("customers").select("*").eq("name", data["name"]).execute()
-
-    if existing.data:
-        supabase.table("customers").update(data).eq("name", data["name"]).execute()
-    else:
-        supabase.table("customers").insert(data).execute()
-
-    except Exception as e:
-    print("SAVE CUSTOMER ERROR:", e)  
+        if existing.data:
+            supabase.table("customers").update(data).eq("name", data["name"]).execute()
+        else:
+            supabase.table("customers").insert(data).execute()
+        except Exception as e:
+            print("SAVE CUSTOMER ERROR:", e)  
 
 def make_bank_key(name):
     name = (name or "").strip()
