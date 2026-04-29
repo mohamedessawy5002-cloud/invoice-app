@@ -1249,9 +1249,9 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
     else:
         label = "INVOICE NO:"
 
-c.drawString(60, 600, f"{label} {invoice_no}")
+    c.drawString(60, 600, f"{label} {invoice_no}")
     c.drawString(340, 600, f"Date: {form.get('date','')}")
-
+    
     y = 575
     customer_text = f"Customer: {form.get('name','')}"
     y = draw_wrapped(c, 60, y, customer_text, max_chars=60)
