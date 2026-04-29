@@ -1495,10 +1495,10 @@ def draw_coa(c, form):
     top_y = y
     table_w = right_x - left_x
     col_w = table_w / 2
-    bottom_limit = 90
+    bottom_limit = 145
     available_h = top_y - bottom_limit
-    row_h = min(42, available_h / len(rows))
-    row_h = max(row_h, 30)
+    row_h = min(38, available_h / len(rows))
+    row_h = max(row_h, 24)
 
     table_h = row_h * len(rows)
     c.rect(left_x, top_y - table_h, table_w, table_h)
@@ -1509,7 +1509,7 @@ def draw_coa(c, form):
         c.line(left_x, yy, right_x, yy)
 
     for i, (a, r) in enumerate(rows):
-        yy = top_y - (row_h * i) - 26
+        yy = top_y - (row_h * i) - (row_h / 2 + 4 )
         if i == 0:
             c.setFont("Helvetica-BoldOblique", 11)
         else:
