@@ -1430,11 +1430,12 @@ def draw_coa(c, form):
 
     y = 615
     c.setFont("Helvetica", 10)
-
-    c.drawString(60, y, f"To: {form.get('name','')}")
-    y -= 13
+    
+    to_text = f"To: {form.get('name','')}"
+    y = draw_wrapped(c, 60, y, to_text,max_chars=65)
+    y -= 10
     y = draw_wrapped(c, 60, y, form.get("address", ""), max_chars=55)
-    y -= 13
+    y -= 10
     c.drawString(60, y, f"E-mail: {form.get('email','')}")
     y -= 13
     c.drawString(60, y, f"Tel: {form.get('phone','')}")
