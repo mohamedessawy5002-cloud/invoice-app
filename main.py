@@ -1371,7 +1371,7 @@ def draw_packing_list(c, form, common):
     y -= 10
 
     c.drawString(60, y, f"Tel: {form.get('phone','')}")
-    y -= 14
+    y -= 18
  
     c.drawString(60, y, f"Fax: {form.get('fax','')}")
     y -= 18
