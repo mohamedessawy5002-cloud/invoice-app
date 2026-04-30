@@ -27,8 +27,8 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # 👇 Users من Railway فقط
 USERS = {
-    "Mohamed Essawy": os.getenv("APP_PASS_MOHAMED"),
-    "Omar Fayez": os.getenv("APP_PASS_OMAR")
+    "Messawy": os.getenv("APP_PASS_MOHAMED"),
+    "Ofayez": os.getenv("APP_PASS_OMAR")
 }
 
 def check_auth(username, password):
