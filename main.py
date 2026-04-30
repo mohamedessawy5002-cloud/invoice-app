@@ -1368,10 +1368,10 @@ def draw_packing_list(c, form, common):
     y = draw_wrapped(c, 60, y, to_text,max_chars=65)
     y -= 10
     y = draw_wrapped(c, 60, y, form.get("address", ""), max_chars=55)
-    y -= 10
+    y -= 15
 
     c.drawString(60, y, f"Tel: {form.get('phone','')}")
-    y -= 18
+    y -= 14
  
     c.drawString(60, y, f"Fax: {form.get('fax','')}")
     y -= 18
