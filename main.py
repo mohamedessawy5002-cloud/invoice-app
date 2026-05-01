@@ -812,13 +812,13 @@ th { background: #f3f3f3; }
 <button type="submit">COA</button>
 </form>
 <td>
-<a href="/invoice/edit/{{ idx }}">Edit</a>
-|
-<a href="/status/{{ idx }}">status</a>
-</td>
-<form method="post" action="/invoice/delete/{{ inv.id }}" onsubmit="return confirm('Delete this invoice from history?');">
-<button type="submit">Delete</button>
-</form>
+    <a href="/invoice/edit/{{ idx }}">Edit</a>
+    |
+    <a href="/status/{{ idx }}">status</a>
+    |
+    <form method="post" action="/invoice/delete/{{ inv.id }}" style="display:inline;" onsubmit="return confirm('Delete this invoice from history?');">
+        <button type="submit">Delete</button>
+    </form>
 </td>
 </tr>
 {% endfor %}
@@ -1946,7 +1946,7 @@ def status_page(idx):
         }
 
         supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
-        return redirect("/invoice-history")
+        return redirect("/history")
 
     return f"""
     <h2>Invoice Status</h2>
