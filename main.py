@@ -813,7 +813,13 @@ th { background: #f3f3f3; }
 
 <!-- Dashboard -->
 <td>
-    <a href="/dashboard/{{ idx }}">Dashboard</a>
+    <a href="/dashboard/{{ idx }}">Dashboard</a><br>
+
+    {% if inv.get('is_complete') %}
+        <span style="color:green; font-weight:bold;">Complete</span>
+    {% else %}
+        <span style="color:red; font-weight:bold;">Pending</span>
+    {% endif %}
 </td>
 
 <!-- Download -->
