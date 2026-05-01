@@ -802,11 +802,13 @@ th { background: #f3f3f3; }
 <td>{{ inv.gross_weight }}</td>
 <!-- Status -->
 <td>
-    {% if inv.get("status_booking_date") %}
-        <span style="color:green;">Done</span>
-    {% else %}
-        <span style="color:red;">Not Started</span>
-    {% endif %}
+    <a href="/status/{{ idx }}">
+        {% if inv.get("status_booking_date") or inv.get("status_payment") or inv.get("status_bl_co") %}
+            Edit Status
+        {% else %}
+            Add Status
+        {% endif %}
+    </a>
 </td>
 
 <!-- Dashboard -->
