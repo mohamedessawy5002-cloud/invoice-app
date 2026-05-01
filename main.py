@@ -776,6 +776,7 @@ th { background: #f3f3f3; }
 <th>Products</th>
 <th>Total</th>
 <th>Gross Weight</th>
+<th>Status</th>
 <th>Download</th>
 <th>Edit</th>
 <th>Delete</th>
@@ -802,15 +803,24 @@ th { background: #f3f3f3; }
 <form method="post" action="/invoice/download/{{ idx }}/proforma" style="display:inline;">
 <button type="submit">Proforma</button>
 </form>
-<form method="post" action="/invoice/download/{{ idx }}/commercial" style="display:inline;">
-<button type="submit">Commercial</button>
-</form>
-<form method="post" action="/invoice/download/{{ idx }}/packing" style="display:inline;">
-<button type="submit">Packing</button>
-</form>
-<form method="post" action="/invoice/download/{{ idx }}/coa" style="display:inline;">
-<button type="submit">COA</button>
-</form>
+
+{% if inv.get("is_complete") %}
+    <form method="post" action="/invoice/download/{{ idx }}/commercial" style="display:inline;">
+        <button type="submit">Commercial</button>
+    </form>
+
+    <form method="post" action="/invoice/download/{{ idx }}/packing" style="display:inline;">
+        <button type="submit">Packing</button>
+    </form>
+
+    <form method="post" action="/invoice/download/{{ idx }}/coa" style="display:inline;">
+        <button type="submit">COA</button>
+    </form>
+{% else %}
+    <button disabled>Commercial</button>
+    <button disabled>Packing</button>
+    <button disabled>COA</button>
+{% endif %}
 <td>
     <a href="/invoice/edit/{{ idx }}">Edit</a>
     |
@@ -1943,6 +1953,7 @@ def status_page(idx):
             "status_payment": request.form.get("payment") or "none",
             "status_bl_co": request.form.get("bl_co") or "none",
             "dhl_no": request.form.get("dhl_no") or "",
+            "is_complete": request.form.get("complete") == "yes",
         }
 
         supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
