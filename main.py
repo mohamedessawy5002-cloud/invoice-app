@@ -827,7 +827,9 @@ th { background: #f3f3f3; }
     <a href="/status/{{ idx }}">status</a>
     |
     <form method="post" action="/invoice/delete/{{ inv.id }}" style="display:inline;" onsubmit="return confirm('Delete this invoice from history?');">
-        <button type="submit">Delete</button>
+    <button type="submit">Delete</button>
+    |
+    <a href="/dashboard/{{ idx }}">dashboard</a>
     </form>
 </td>
 </tr>
@@ -1953,7 +1955,6 @@ def status_page(idx):
             "status_payment": request.form.get("payment") or "none",
             "status_bl_co": request.form.get("bl_co") or "none",
             "dhl_no": request.form.get("dhl_no") or "",
-            "is_complete": request.form.get("complete") == "yes",
         }
 
         supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
@@ -1991,11 +1992,7 @@ def status_page(idx):
         DHL No:
        <input type="text" name="dhl_no" value="{inv.get('dhl_no','')}">    
         <br><br>
-<label>
-   <input type="checkbox" name="complete" value="yes" {"checked" if inv.get("is_complete") else ""}>
-   Complete
-</label>
-<br><br>
+
 
         <button type="submit">Save Status</button>
     </form>
