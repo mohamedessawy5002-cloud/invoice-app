@@ -1990,6 +1990,12 @@ def status_page(idx):
 
         DHL No:
         <input type="text" name="dhl_no"><br><br>
+        <br><br>
+<label>
+    <input type="checkbox" name="complete" value="yes">
+    Complete
+</label>
+<br><br>
 
         <button type="submit">Save Status</button>
     </form>
