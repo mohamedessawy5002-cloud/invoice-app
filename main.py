@@ -811,9 +811,11 @@ th { background: #f3f3f3; }
 <form method="post" action="/invoice/download/{{ idx }}/coa" style="display:inline;">
 <button type="submit">COA</button>
 </form>
-</td>
-<td><a href="/invoice/edit/{{ idx }}">Edit</a></td>
 <td>
+<a href="/invoice/edit/{{ idx }}">Edit</a>
+|
+<a href="/status/{{ idx }}">status</a>
+</td>
 <form method="post" action="/invoice/delete/{{ inv.id }}" onsubmit="return confirm('Delete this invoice from history?');">
 <button type="submit">Delete</button>
 </form>
@@ -1925,6 +1927,64 @@ def banks_delete(bank_key):
         supabase.table("banks").delete().eq("name", bank.get("name", "")).execute()
 
     return redirect("/banks")
+@app.route("/status/<int:idx>", methods=["GET", "POST"])
+def status_page(idx):
+    invoices = load_invoices()
 
+    if idx < 0 or idx >= len(invoices):
+        return "Invoice not found"
+
+    inv = invoices[idx]
+
+    if request.method == "POST":
+        data = {
+            "status_booking_date": request.form.get("booking_date") or None,
+            "status_production": request.form.get("production") or "not done",
+            "status_payment": request.form.get("payment") or "none",
+            "status_bl_co": request.form.get("bl_co") or "none",
+            "dhl_no": request.form.get("dhl_no") or "",
+        }
+
+        supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
+        return redirect("/invoice-history")
+
+    return f"""
+    <h2>Invoice Status</h2>
+    <p><b>Customer:</b> {inv.get('customer','')}</p>
+    <p><b>Proforma No:</b> {inv.get('proforma_no','')}</p>
+
+    <form method="post">
+        Booking Date:
+        <input type="datetime-local" name="booking_date"><br><br>
+
+        Production:
+        <select name="production">
+            <option value="not done">Not Done</option>
+            <option value="done">Done</option>
+        </select><br><br>
+
+        Payment:
+        <select name="payment">
+            <option value="none">None</option>
+            <option value="swift">Swift</option>
+            <option value="cash">Cash</option>
+        </select><br><br>
+
+        B/L & CO:
+        <select name="bl_co">
+            <option value="none">None</option>
+            <option value="draft">Draft</option>
+            <option value="confirmed">Confirmed</option>
+        </select><br><br>
+
+        DHL No:
+        <input type="text" name="dhl_no"><br><br>
+
+        <button type="submit">Save Status</button>
+    </form>
+
+    <br>
+    <a href="/invoice-history">Back</a>
+    """
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
