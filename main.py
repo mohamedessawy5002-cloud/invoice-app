@@ -2026,7 +2026,7 @@ def status_page(idx):
     </form>
 
     <br>
-    <a href="/Invoice History">Back</a>
+    <a href="/history">Back</a>
     """
 @app.route("/dashboard/<int:idx>", methods=["GET", "POST"])
 def dashboard(idx):
