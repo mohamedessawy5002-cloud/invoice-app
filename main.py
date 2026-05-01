@@ -2014,6 +2014,7 @@ def status_page(idx):
            <option value="none" {"selected" if inv.get("status_bl_co") == "none" else ""}>None</option>
            <option value="draft" {"selected" if inv.get("status_bl_co") == "draft" else ""}>Draft</option>
            <option value="confirmed" {"selected" if inv.get("status_bl_co") == "confirmed" else ""}>Confirmed</option>
+           <option value="final" {"selected" if inv.get("status_bl_co") == "fianl" else ""}>final</option>
         </select>
 
         DHL No:
