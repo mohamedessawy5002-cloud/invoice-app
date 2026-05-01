@@ -805,6 +805,7 @@ th { background: #f3f3f3; }
 <button type="submit">Proforma</button>
 </form>
 
+<!-- Status -->
 <td>
     {% if inv.get("is_complete") %}
         Complete
@@ -812,10 +813,13 @@ th { background: #f3f3f3; }
         Pending
     {% endif %}
 </td>
+
+<!-- Dashboard -->
 <td>
     <a href="/dashboard/{{ idx }}">Dashboard</a>
 </td>
 
+<!-- Download -->
 <td>
     <form method="post" action="/invoice/download/{{ idx }}/proforma" style="display:inline;">
         <button type="submit">Proforma</button>
@@ -839,13 +843,16 @@ th { background: #f3f3f3; }
         <button disabled>COA</button>
     {% endif %}
 </td>
-   <td>
-    <a href="/invoice/edit/{{ idx }}">Edit</a>
-   </td>
-    
+
+<!-- Edit -->
 <td>
-    <form method="post" action="/invoice/delete/{{ inv.id }}" onsubmit="return confirm('Delete this invoice from history?');">
-    <button type="submit">Delete</button>
+    <a href="/invoice/edit/{{ idx }}">Edit</a>
+</td>
+
+<!-- Delete -->
+<td>
+    <form method="post" action="/invoice/delete/{{ inv.id }}">
+        <button type="submit">Delete</button>
     </form>
 </td>
 </tr>
