@@ -2031,39 +2031,100 @@ def dashboard(idx):
     inv = invoices[idx]
 
     if request.method == "POST":
-        supabase.table("invoices").update({
-            "is_complete": True
-        }).eq("id", inv["id"]).execute()
+        action = request.form.get("action")
 
-        return redirect("/history")
+        if action == "complete":
+            supabase.table("invoices").update({"is_complete": True}).eq("id", inv["id"]).execute()
+
+        elif action == "undo":
+            supabase.table("invoices").update({"is_complete": False}).eq("id", inv["id"]).execute()
+
+        return redirect(f"/dashboard/{idx}")
 
     return f"""
     <h2>Proforma Dashboard</h2>
 
-    <p><b>Proforma No:</b> {inv.get('proforma_no','')}</p>
-    <p><b>Customer:</b> {inv.get('customer','')}</p>
-    <p><b>MR:</b> {inv.get('selected_mr','')}</p>
-    <p><b>Total:</b> {inv.get('grand_total','')}</p>
-    <p><b>Gross Weight:</b> {inv.get('gross_weight','')}</p>
+    <style>
+        table {{
+            border-collapse: collapse;
+            width: 90%;
+            margin-top: 20px;
+        }}
+        th, td {{
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }}
+        th {{
+            background: #f2f2f2;
+        }}
+        .complete {{
+            color: green;
+            font-weight: bold;
+        }}
+        .pending {{
+            color: red;
+            font-weight: bold;
+        }}
+        button {{
+            padding: 8px 14px;
+            margin-right: 8px;
+            cursor: pointer;
+        }}
+    </style>
+
+    <table>
+        <tr>
+            <th>Proforma No</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>MR</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Gross Weight</th>
+        </tr>
+        <tr>
+            <td>{inv.get('proforma_no','')}</td>
+            <td>{inv.get('customer','')}</td>
+            <td>{', '.join([p.get('name','') for p in inv.get('products', [])])}</td>
+            <td>{inv.get('selected_mr','')}</td>
+            <td>{', '.join([str(p.get('qty','')) for p in inv.get('products', [])])}</td>
+            <td>{inv.get('grand_total','')}</td>
+            <td>{inv.get('gross_weight','')}</td>
+        </tr>
+    </table>
 
     <h3>Status Data</h3>
-    <p><b>Booking Date:</b> {inv.get('status_booking_date','')}</p>
-    <p><b>Production:</b> {inv.get('status_production','')}</p>
-    <p><b>Payment:</b> {inv.get('status_payment','')}</p>
-    <p><b>B/L & CO:</b> {inv.get('status_bl_co','')}</p>
-    <p><b>DHL No:</b> {inv.get('dhl_no','')}</p>
+
+    <table>
+        <tr>
+            <th>Booking Date</th>
+            <th>Production</th>
+            <th>Payment</th>
+            <th>B/L & CO</th>
+            <th>DHL No</th>
+            <th>Complete Status</th>
+        </tr>
+        <tr>
+            <td>{inv.get('status_booking_date','')}</td>
+            <td>{inv.get('status_production','')}</td>
+            <td>{inv.get('status_payment','')}</td>
+            <td>{inv.get('status_bl_co','')}</td>
+            <td>{inv.get('dhl_no','')}</td>
+            <td>{'<span class="complete">Completed ✅</span>' if inv.get('is_complete') else '<span class="pending">Pending</span>'}</td>
+        </tr>
+    </table>
 
     <br>
 
-    {'''
     <form method="post">
-        <button type="submit">Complete</button>
+        <button type="submit" name="action" value="complete">Complete</button>
+        <button type="submit" name="action" value="undo">Cancel Complete</button>
     </form>
-    ''' if not inv.get('is_complete') else '<h3 style="color:green;">Completed ✅</h3>'}
 
     <br>
     <a href="/history">Back to History</a>
-    """    
+    """
     
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
