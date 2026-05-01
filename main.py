@@ -777,6 +777,7 @@ th { background: #f3f3f3; }
 <th>Total</th>
 <th>Gross Weight</th>
 <th>Status</th>
+<th>Dashboard</th>
 <th>Download</th>
 <th>Edit</th>
 <th>Delete</th>
@@ -804,32 +805,47 @@ th { background: #f3f3f3; }
 <button type="submit">Proforma</button>
 </form>
 
-{% if inv.get("is_complete") %}
-    <form method="post" action="/invoice/download/{{ idx }}/commercial" style="display:inline;">
-        <button type="submit">Commercial</button>
-    </form>
-
-    <form method="post" action="/invoice/download/{{ idx }}/packing" style="display:inline;">
-        <button type="submit">Packing</button>
-    </form>
-
-    <form method="post" action="/invoice/download/{{ idx }}/coa" style="display:inline;">
-        <button type="submit">COA</button>
-    </form>
-{% else %}
-    <button disabled>Commercial</button>
-    <button disabled>Packing</button>
-    <button disabled>COA</button>
-{% endif %}
 <td>
+    {% if inv.get("is_complete") %}
+        Complete
+    {% else %}
+        Pending
+    {% endif %}
+</td>
+<td>
+    <a href="/dashboard/{{ idx }}">Dashboard</a>
+</td>
+
+<td>
+    <form method="post" action="/invoice/download/{{ idx }}/proforma" style="display:inline;">
+        <button type="submit">Proforma</button>
+    </form>
+
+    {% if inv.get("is_complete") %}
+        <form method="post" action="/invoice/download/{{ idx }}/commercial" style="display:inline;">
+            <button type="submit">Commercial</button>
+        </form>
+
+        <form method="post" action="/invoice/download/{{ idx }}/packing" style="display:inline;">
+            <button type="submit">Packing</button>
+        </form>
+
+        <form method="post" action="/invoice/download/{{ idx }}/coa" style="display:inline;">
+            <button type="submit">COA</button>
+        </form>
+    {% else %}
+        <button disabled>Commercial</button>
+        <button disabled>Packing</button>
+        <button disabled>COA</button>
+    {% endif %}
+</td>
+   <td>
     <a href="/invoice/edit/{{ idx }}">Edit</a>
-    |
-    <a href="/status/{{ idx }}">status</a>
-    |
-    <form method="post" action="/invoice/delete/{{ inv.id }}" style="display:inline;" onsubmit="return confirm('Delete this invoice from history?');">
+   </td>
+    
+<td>
+    <form method="post" action="/invoice/delete/{{ inv.id }}" onsubmit="return confirm('Delete this invoice from history?');">
     <button type="submit">Delete</button>
-    |
-    <a href="/dashboard/{{ idx }}">dashboard</a>
     </form>
 </td>
 </tr>
