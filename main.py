@@ -802,10 +802,10 @@ th { background: #f3f3f3; }
 <td>{{ inv.gross_weight }}</td>
 <!-- Status -->
 <td>
-    {% if inv.get("is_complete") %}
-        Complete
+    {% if inv.get("status_booking_date") %}
+        <span style="color:green;">Done</span>
     {% else %}
-        Pending
+        <span style="color:red;">Not Started</span>
     {% endif %}
 </td>
 
@@ -2018,5 +2018,49 @@ def status_page(idx):
     <br>
     <a href="/invoice-history">Back</a>
     """
+@app.route("/dashboard/<int:idx>", methods=["GET", "POST"])
+def dashboard(idx):
+    invoices = load_invoices()
+
+    if idx < 0 or idx >= len(invoices):
+        return "Invoice not found"
+
+    inv = invoices[idx]
+
+    if request.method == "POST":
+        supabase.table("invoices").update({
+            "is_complete": True
+        }).eq("id", inv["id"]).execute()
+
+        return redirect("/history")
+
+    return f"""
+    <h2>Proforma Dashboard</h2>
+
+    <p><b>Proforma No:</b> {inv.get('proforma_no','')}</p>
+    <p><b>Customer:</b> {inv.get('customer','')}</p>
+    <p><b>MR:</b> {inv.get('selected_mr','')}</p>
+    <p><b>Total:</b> {inv.get('grand_total','')}</p>
+    <p><b>Gross Weight:</b> {inv.get('gross_weight','')}</p>
+
+    <h3>Status Data</h3>
+    <p><b>Booking Date:</b> {inv.get('status_booking_date','')}</p>
+    <p><b>Production:</b> {inv.get('status_production','')}</p>
+    <p><b>Payment:</b> {inv.get('status_payment','')}</p>
+    <p><b>B/L & CO:</b> {inv.get('status_bl_co','')}</p>
+    <p><b>DHL No:</b> {inv.get('dhl_no','')}</p>
+
+    <br>
+
+    {'''
+    <form method="post">
+        <button type="submit">Complete</button>
+    </form>
+    ''' if not inv.get('is_complete') else '<h3 style="color:green;">Completed ✅</h3>'}
+
+    <br>
+    <a href="/history">Back to History</a>
+    """    
+    
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
