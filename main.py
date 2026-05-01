@@ -1966,34 +1966,34 @@ def status_page(idx):
 
     <form method="post">
         Booking Date:
-        <input type="datetime-local" name="booking_date"><br><br>
+       <input type="datetime-local" name="booking_date" value="{inv.get('status_booking_date','')[:16]}">
 
         Production:
         <select name="production">
-            <option value="not done">Not Done</option>
-            <option value="done">Done</option>
-        </select><br><br>
-
+          <option value="not done" {"selected" if inv.get("status_production") == "not done" else ""}>Not Done</option>
+          <option value="done" {"selected" if inv.get("status_production") == "done" else ""}>Done</option>
+        </select>
+    
         Payment:
         <select name="payment">
-            <option value="none">None</option>
-            <option value="swift">Swift</option>
-            <option value="cash">Cash</option>
-        </select><br><br>
+           <option value="none" {"selected" if inv.get("status_payment") == "none" else ""}>None</option>
+           <option value="swift" {"selected" if inv.get("status_payment") == "swift" else ""}>Swift</option>
+           <option value="cash" {"selected" if inv.get("status_payment") == "cash" else ""}>Cash</option>
+        </select>
 
         B/L & CO:
         <select name="bl_co">
-            <option value="none">None</option>
-            <option value="draft">Draft</option>
-            <option value="confirmed">Confirmed</option>
-        </select><br><br>
+           <option value="none" {"selected" if inv.get("status_bl_co") == "none" else ""}>None</option>
+           <option value="draft" {"selected" if inv.get("status_bl_co") == "draft" else ""}>Draft</option>
+           <option value="confirmed" {"selected" if inv.get("status_bl_co") == "confirmed" else ""}>Confirmed</option>
+        </select>
 
         DHL No:
-        <input type="text" name="dhl_no"><br><br>
+       <input type="text" name="dhl_no" value="{inv.get('dhl_no','')}">    
         <br><br>
 <label>
-    <input type="checkbox" name="complete" value="yes">
-    Complete
+   <input type="checkbox" name="complete" value="yes" {"checked" if inv.get("is_complete") else ""}>
+   Complete
 </label>
 <br><br>
 
