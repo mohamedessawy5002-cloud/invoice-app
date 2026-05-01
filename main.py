@@ -1994,7 +1994,7 @@ def status_page(idx):
 
     <form method="post">
         Booking Date:
-       <input type="datetime-local" name="booking_date" value="{inv.get('status_booking_date','')[:16]}">
+       <input type="date" name="booking_date" value="{inv.get('status_booking_date','')[:10]}">
 
         Production:
         <select name="production">
@@ -2026,7 +2026,7 @@ def status_page(idx):
     </form>
 
     <br>
-    <a href="/invoice-history">Back</a>
+    <a href="/Invoice History">Back</a>
     """
 @app.route("/dashboard/<int:idx>", methods=["GET", "POST"])
 def dashboard(idx):
