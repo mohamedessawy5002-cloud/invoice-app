@@ -800,11 +800,6 @@ th { background: #f3f3f3; }
 </td>
 <td>{{ inv.grand_total }}</td>
 <td>{{ inv.gross_weight }}</td>
-<td>
-<form method="post" action="/invoice/download/{{ idx }}/proforma" style="display:inline;">
-<button type="submit">Proforma</button>
-</form>
-
 <!-- Status -->
 <td>
     {% if inv.get("is_complete") %}
