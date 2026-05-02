@@ -1981,6 +1981,7 @@ def status(idx):
             "status_payment": request.form.get("payment") or "none",
             "status_bl_co": request.form.get("bl_co") or "none",
             "dhl_no": request.form.get("dhl_no") or "",
+            "is_complete": False,
         }
 
         supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
