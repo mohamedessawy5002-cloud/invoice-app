@@ -1581,8 +1581,7 @@ def generate():
     save_customer_from_form(request.form)
     save_bank_from_form(request.form)
     save_invoice_from_form(request.form)
-    return render_template_string(RESULT_HTML, hidden_fields=build_hidden_fields(request.form))
-
+    return redirect("/history")
 @app.route("/history")
 def history():
     invoices = load_invoices()
