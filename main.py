@@ -1986,7 +1986,7 @@ def status_page(idx):
 
         supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
         return redirect("/history")
-          return f"""
+         return f"""
     <!DOCTYPE html>
     <html>
     <head>
