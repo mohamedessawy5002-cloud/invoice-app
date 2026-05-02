@@ -1966,7 +1966,7 @@ def banks_delete(bank_key):
 
     return redirect("/banks")
 @app.route("/status/<int:idx>", methods=["GET", "POST"])
-def status_page(idx):
+def status(idx):
     invoices = load_invoices()
 
     if idx < 0 or idx >= len(invoices):
@@ -1981,22 +1981,23 @@ def status_page(idx):
             "status_payment": request.form.get("payment") or "none",
             "status_bl_co": request.form.get("bl_co") or "none",
             "dhl_no": request.form.get("dhl_no") or "",
-            "is_complete": False
         }
 
         supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
         return redirect("/history")
-   return f"""
+
+    return f"""
 <!DOCTYPE html>
 <html>
 <head>
     <title>Invoice Status</title>
     <style>
         body {{
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             background: #f5f7fb;
             margin: 0;
             padding: 30px;
+            color: #222;
         }}
         .card {{
             background: white;
@@ -2008,12 +2009,16 @@ def status_page(idx):
         }}
         h2 {{
             margin-top: 0;
+            margin-bottom: 20px;
         }}
         .info {{
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-bottom: 25px;
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
         }}
         label {{
             font-weight: bold;
@@ -2025,14 +2030,17 @@ def status_page(idx):
             padding: 9px;
             border: 1px solid #ccc;
             border-radius: 6px;
+            box-sizing: border-box;
         }}
         .grid {{
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 18px;
         }}
-        button {{
+        .actions {{
             margin-top: 25px;
+        }}
+        button {{
             padding: 10px 18px;
             border: none;
             border-radius: 6px;
@@ -2043,8 +2051,11 @@ def status_page(idx):
         }}
         .back {{
             display: inline-block;
-            margin-top: 18px;
-            color: #2563eb;
+            margin-left: 10px;
+            padding: 10px 18px;
+            background: #e5e7eb;
+            color: #111;
+            border-radius: 6px;
             text-decoration: none;
         }}
     </style>
@@ -2054,21 +2065,21 @@ def status_page(idx):
         <h2>Invoice Status</h2>
 
         <div class="info">
-            <div><b>Customer:</b> {inv.get('customer','')}</div>
-            <div><b>Proforma No:</b> {inv.get('proforma_no','')}</div>
+            <div><b>Customer:</b> {inv.get('customer') or ''}</div>
+            <div><b>Proforma No:</b> {inv.get('proforma_no') or ''}</div>
         </div>
 
         <form method="post">
             <div class="grid">
                 <div>
                     <label>Booking Date</label>
-                    <input type="date" name="booking_date" value="{inv.get('status_booking_date','')[:10]}">
+                    <input type="date" name="booking_date" value="{(inv.get('status_booking_date') or '')[:10]}">
                 </div>
 
                 <div>
                     <label>Production</label>
                     <select name="production">
-                        <option value="not done" {"selected" if inv.get("status_production") == "not done" else ""}>Not Done</option>
+                        <option value="not done" {"selected" if (inv.get("status_production") or "not done") == "not done" else ""}>Not Done</option>
                         <option value="done" {"selected" if inv.get("status_production") == "done" else ""}>Done</option>
                     </select>
                 </div>
@@ -2076,7 +2087,7 @@ def status_page(idx):
                 <div>
                     <label>Payment</label>
                     <select name="payment">
-                        <option value="none" {"selected" if inv.get("status_payment") == "none" else ""}>None</option>
+                        <option value="none" {"selected" if (inv.get("status_payment") or "none") == "none" else ""}>None</option>
                         <option value="swift" {"selected" if inv.get("status_payment") == "swift" else ""}>Swift</option>
                         <option value="cash" {"selected" if inv.get("status_payment") == "cash" else ""}>Cash</option>
                     </select>
@@ -2085,7 +2096,7 @@ def status_page(idx):
                 <div>
                     <label>B/L & CO</label>
                     <select name="bl_co">
-                        <option value="none" {"selected" if inv.get("status_bl_co") == "none" else ""}>None</option>
+                        <option value="none" {"selected" if (inv.get("status_bl_co") or "none") == "none" else ""}>None</option>
                         <option value="draft" {"selected" if inv.get("status_bl_co") == "draft" else ""}>Draft</option>
                         <option value="confirmed" {"selected" if inv.get("status_bl_co") == "confirmed" else ""}>Confirmed</option>
                         <option value="final" {"selected" if inv.get("status_bl_co") == "final" else ""}>Final</option>
@@ -2094,14 +2105,15 @@ def status_page(idx):
 
                 <div>
                     <label>DHL No</label>
-                    <input type="text" name="dhl_no" value="{inv.get('dhl_no','')}">
+                    <input type="text" name="dhl_no" value="{inv.get('dhl_no') or ''}">
                 </div>
             </div>
 
-            <button type="submit">Save Status</button>
+            <div class="actions">
+                <button type="submit">Save Status</button>
+                <a class="back" href="/history">Back to History</a>
+            </div>
         </form>
-
-        <a class="back" href="/history">Back to History</a>
     </div>
 </body>
 </html>
