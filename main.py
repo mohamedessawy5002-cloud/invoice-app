@@ -1986,7 +1986,6 @@ def status_page(idx):
 
         supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
         return redirect("/history")
-
 return f"""
 <!DOCTYPE html>
 <html>
@@ -2107,6 +2106,8 @@ return f"""
 </body>
 </html>
 """
+
+
 @app.route("/dashboard/<int:idx>", methods=["GET", "POST"])
 def dashboard(idx):
     invoices = load_invoices()
