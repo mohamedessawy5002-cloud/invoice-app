@@ -53,18 +53,21 @@ def check_login():
     auth = request.authorization
 
     if not auth or auth.username not in USERS or auth.password != USERS[auth.username]["password"]:
-        return ("Login Required", 401, {
+        return Response("Login Required", 401, {
             "WWW-Authenticate": 'Basic realm="Login Required"'
         })
 
     role = USERS[auth.username]["role"]
 
+    # 👇 الجزء الجديد المهم
     if role == "mr_manager":
+        if request.path == "/":
+            return redirect("/mr")
+
         allowed_paths = ["/mr"]
 
         if not any(request.path.startswith(path) for path in allowed_paths):
             return "Access Denied", 403
-
 MR_FILE = "mr_data.json"
 CUSTOMERS_FILE = "customers.json"
 INVOICES_FILE = "invoices.json"
