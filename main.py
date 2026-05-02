@@ -1987,81 +1987,81 @@ def status_page(idx):
         supabase.table("invoices").update(data).eq("id", inv["id"]).execute()
         return redirect("/history")
         return f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Invoice Status</title>
-    <style>
-        body {{
-            font-family: Arial;
-            background: #f5f7fb;
-            margin: 0;
-            padding: 30px;
-        }}
-        .card {{
-            background: white;
-            max-width: 850px;
-            margin: auto;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }}
-        h2 {{
-            margin-top: 0;
-        }}
-        .info {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 25px;
-        }}
-        label {{
-            font-weight: bold;
-            display: block;
-            margin-bottom: 6px;
-        }}
-        input, select {{
-            width: 100%;
-            padding: 9px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }}
-        .grid {{
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }}
-        button {{
-            margin-top: 25px;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 6px;
-            background: #2563eb;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }}
-        .back {{
-            display: inline-block;
-            margin-top: 18px;
-            color: #2563eb;
-            text-decoration: none;
-        }}
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h2>Invoice Status</h2>
+       <!DOCTYPE html>
+       <html>
+       <head>
+           <title>Invoice Status</title>
+           <style>
+                body {{
+                    font-family: Arial;
+                    background: #f5f7fb;
+                    margin: 0;
+                    padding: 30px;
+                }}
+                .card {{
+                    background: white;
+                    max-width: 850px;
+                    margin: auto;
+                    padding: 25px;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+                }}
+                h2 {{
+                    margin-top: 0;
+                }}
+                .info {{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 12px;
+                    margin-bottom: 25px;
+                }}
+                label {{
+                    font-weight: bold;
+                    display: block;
+                    margin-bottom: 6px;
+                }}
+                input, select {{
+                    width: 100%;
+                    padding: 9px;
+                    border: 1px solid #ccc;
+                    border-radius: 6px;
+                }}
+                .grid {{
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 18px;
+                }}
+                button {{
+                    margin-top: 25px;
+                    padding: 10px 18px;
+                    border: none;
+                    border-radius: 6px;
+                    background: #2563eb;
+                    color: white;
+                    font-weight: bold;
+                    cursor: pointer;
+                }}
+                .back {{
+                    display: inline-block;
+                    margin-top: 18px;
+                    color: #2563eb;
+                    text-decoration: none;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <h2>Invoice Status</h2>
 
-        <div class="info">
-            <div><b>Customer:</b> {inv.get('customer','')}</div>
-            <div><b>Proforma No:</b> {inv.get('proforma_no','')}</div>
-        </div>
+                <div class="info">
+                        <div><b>Customer:</b> {inv.get('customer','')}</div>
+                        <div><b>Proforma No:</b> {inv.get('proforma_no','')}</div>
+                </div>
 
-        <form method="post">
-            <div class="grid">
-                <div>
-                    <label>Booking Date</label>
+            <form method="post">
+                <div class="grid">
+                    <div>
+                        <label>Booking Date</label>
                     <input type="date" name="booking_date" value="{inv.get('status_booking_date','')[:10]}">
                 </div>
 
