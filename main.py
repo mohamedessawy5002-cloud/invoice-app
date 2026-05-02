@@ -489,7 +489,7 @@ Email:<br><input id="customer_email" name="email"><br>
 <div id="products" class="products">
 <div class="product-line">
 <input name="product_name" placeholder="Product Name">
-<input name="product_qty" id="qty">
+<input name="product_qty" placeholder="Qty MT">
 <input name="product_price" placeholder="Price">
 </div>
 </div>
@@ -509,8 +509,8 @@ Wooden Pallets Price:<br><input name="pallet_price"><br>
 
 <div class="box">
 <h3>Packing Data</h3>
-<input name="packing_weight" id="packing_weight" value="1.35">
-<input name="bags_count" id="jumbo_bags_count">
+Packing Weight Text Value:<br><input name="packing_weight" value="1.35"><br>
+Jumbo Bags Count:<br><input name="bags_count"><br>
 Weight Per Jumbo Bag (MT):<br><input name="bag_weight_unit" value="0.003"><br>
 Weight Per Pallet (MT):<br><input name="pallet_weight_unit" value="0.05"><br>
 </div>
@@ -606,25 +606,6 @@ function addProduct() {
     `;
     document.getElementById("products").appendChild(div);
 }
-</script>
-let jumboManual = false;
-
-function calculateJumboBags() {
-    const qty = parseFloat(document.getElementById("qty").value) || 0;
-    const packingWeight = parseFloat(document.getElementById("packing_weight").value) || 0;
-    const jumbo = document.getElementById("jumbo_bags_count");
-
-    if (!jumboManual && qty > 0 && packingWeight > 0) {
-        jumbo.value = Math.ceil(qty / packingWeight);
-    }
-}
-
-document.getElementById("qty").addEventListener("input", calculateJumboBags);
-document.getElementById("packing_weight").addEventListener("input", calculateJumboBags);
-
-document.getElementById("jumbo_bags_count").addEventListener("input", function () {
-    jumboManual = true;
-});
 </script>
 
 </body>
