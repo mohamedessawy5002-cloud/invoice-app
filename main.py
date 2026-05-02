@@ -27,8 +27,18 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # 👇 Users من Railway فقط
 USERS = {
-    "Messawy": os.getenv("APP_PASS_MOHAMED"),
-    "Ofayez": os.getenv("APP_PASS_OMAR")
+    "Messawy": {
+        "password": os.getenv("APP_PASS_MOHAMED"),
+        "role": "admin"
+    },
+    "Ofayez": {
+        "password": os.getenv("APP_PASS_OMAR"),
+        "role": "admin"
+    },
+    os.getenv("MR_USER"): {
+        "password": os.getenv("MR_PASS"),
+        "role": "mr_manager"
+    }
 }
 
 def check_auth(username, password):
@@ -38,48 +48,22 @@ def check_auth(username, password):
         and USERS[username] == password
     )
 
-def authenticate():
-    return Response(
-        'Login Required', 401,
-        {'WWW-Authenticate': 'Basic realm="Login Required"'}
-    )
-
-# 🔐 حماية كل الموقع
 @app.before_request
-def global_auth():
-    open_paths = []  # لو عايز تستثني صفحات
-
-    if request.path in open_paths:
-        return
-
+def check_login():
     auth = request.authorization
 
-    if not auth or not check_auth(auth.username, auth.password):
-        return authenticate()
+    if not auth or auth.username not in USERS or auth.password != USERS[auth.username]["password"]:
+        return ("Login Required", 401, {
+            "WWW-Authenticate": 'Basic realm="Login Required"'
+        })
 
-#@app.route('/login', methods=['GET', 'POST'])
-#def login():
-   #if request.method == 'POST':
-      #  email = request.form['email']
-      #  password = request.form['password']
+    role = USERS[auth.username]["role"]
 
-      #  try:
-          #  user = supabase.auth.sign_in_with_password({
-              # "email": email,
-            #    "password": password
-         #   })
-          #  session['user'] = email
-          #  return redirect("/")
-      #  except Exception as e:
-       #     return f"Login failed ❌: {str(e)}"
+    if role == "mr_manager":
+        allowed_paths = ["/mr"]
 
-  #  return '''
-   # <form method="post">
-     #   Email: <input name="email"><br>
-      #  Password: <input name="password" type="password"><br>
-     #   <button type="submit">Login</button>
-  #  </form>
-  #  '''
+        if not any(request.path.startswith(path) for path in allowed_paths):
+            return "Access Denied", 403
 
 MR_FILE = "mr_data.json"
 CUSTOMERS_FILE = "customers.json"
