@@ -1293,12 +1293,12 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
     y = draw_wrapped(c, 60, y, customer_text, max_chars=60)
     y -= 10
     y = draw_wrapped(c, 60, y, f"Address: {form.get('address','')}", max_chars=55)
-    y -= 20
+    y -= 15
     if "COMMERCIAL" in title.upper():
         vat = form.get("vat_number", "")
         if vat:
             y -=14
-            y = draw_wrapped(c, 50, y, f"VAT NUMBER: {vat}", max_chars=55)
+            y = draw_wrapped(c, 60, y, f"VAT NUMBER: {vat}", max_chars=55)
     y -= 20       
    
     c.drawString(60, y, f"Phone: {form.get('phone','')}")
