@@ -571,6 +571,7 @@ function fillCustomer() {
     document.getElementById("customer_phone").value = c.phone || "";
     document.getElementById("customer_fax").value = c.fax || "";
     document.getElementById("customer_email").value = c.email || "";
+    document.getElementById("customer_vat").value = vat_number || "";
 }
 
 function fillBank() {
@@ -1292,8 +1293,12 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
     y = draw_wrapped(c, 60, y, customer_text, max_chars=60)
     y -= 10
     y = draw_wrapped(c, 60, y, f"Address: {form.get('address','')}", max_chars=55)
-    y -= 20
-
+    if "COMMERCIAL" in title.upper():
+        vat = form.get("vat_number", "")
+        if vat:
+            y -=14
+            y = draw_wrapped(c, 50, y, f"VAT NUMBER: {VAT}", max_chars=55)
+   
     c.drawString(60, y, f"Phone: {form.get('phone','')}")
     c.drawString(240, y, f"Fax: {form.get('fax','')}")
     y -= 20
