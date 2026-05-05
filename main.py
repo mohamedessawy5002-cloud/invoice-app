@@ -1297,7 +1297,7 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
         vat = form.get("vat_number", "")
         if vat:
             y -=14
-            y = draw_wrapped(c, 50, y, f"VAT NUMBER: {VAT}", max_chars=55)
+            y = draw_wrapped(c, 50, y, f"VAT NUMBER: {vat}", max_chars=55)
    
     c.drawString(60, y, f"Phone: {form.get('phone','')}")
     c.drawString(240, y, f"Fax: {form.get('fax','')}")
