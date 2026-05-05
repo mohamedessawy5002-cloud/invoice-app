@@ -153,8 +153,8 @@ def save_customer_from_form(form):
         "address": form.get("address", ""),
         "phone": form.get("phone", ""),
         "fax": form.get("fax", ""),
-        "email": form.get("email", "")
-        "vat_number": form.get("vat_number", "")
+        "email": form.get("email", ""),
+        "vat_number": form.get("vat_number", ""),
     }
     try:
         existing = supabase.table("customers").select("*").eq("name", data["name"]).execute()
