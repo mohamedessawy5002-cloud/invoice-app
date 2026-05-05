@@ -154,6 +154,7 @@ def save_customer_from_form(form):
         "phone": form.get("phone", ""),
         "fax": form.get("fax", ""),
         "email": form.get("email", "")
+        "vat_number": form.get("vat_number", "")
     }
     try:
         existing = supabase.table("customers").select("*").eq("name", data["name"]).execute()
@@ -468,6 +469,7 @@ Address:<br><input id="customer_address" name="address"><br>
 Phone:<br><input id="customer_phone" name="phone"><br>
 Fax:<br><input id="customer_fax" name="fax"><br>
 Email:<br><input id="customer_email" name="email"><br>
+VAT Number:<br><input id="custmomer_vat"name="vat_number"><br>
 <small>Customer data will be saved/updated automatically when you click Generate.</small>
 </div>
 
