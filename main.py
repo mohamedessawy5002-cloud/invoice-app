@@ -259,6 +259,7 @@ def save_invoice_from_form(form):
         "grand_total": common["grand_total"],
         "gross_weight": common["gross_weight"],
         "form_data": form_to_saved_data(form)
+        "company": form.get("company", "ESACI"),
     }
 
     try:
@@ -767,6 +768,7 @@ th { background: #f3f3f3; }
 <thead>
 <tr>
 <th>Date Saved</th>
+<th>company</th>
 <th>Customer</th>
 <th>Proforma No</th>
 <th>Commercial No</th>
@@ -787,6 +789,7 @@ th { background: #f3f3f3; }
 {% for idx, inv in invoice_items %}
 <tr>
 <td>{{ inv.created_at }}</td>
+<td>{{ inv.company }}</td>
 <td>{{ inv.customer }}</td>
 <td>{{ inv.proforma_no }}</td>
 <td>{{ inv.commercial_no }}</td>
