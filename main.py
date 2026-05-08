@@ -99,6 +99,9 @@ DEFAULT_MR = {
         "color": "White"
     }
 }
+COMPANY_BACKGROUNDS = {"ESACI": "bg.png",
+                       "MCI": "bg2.png"
+}
 
 def load_json_file(filename, default):
     if not os.path.exists(filename):
@@ -338,12 +341,14 @@ def build_hidden_fields(form):
             )
     return "\n".join(parts)
 
-def base_page(c):
+def base_page(c, company="ESACI"):
     w, h = A4
 
     import os
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    bg_path = os.path.join(base_dir, "bg.png")
+
+    bg_file = COMPANY_BACKGROUNDS.get(company, "bg.png")
+    bg_path = os.path.join(base_dir, bg_file)
 
     try:
         if os.path.exists(bg_path):
