@@ -438,6 +438,11 @@ button { padding: 8px 14px; margin-top: 8px; }
 <h2>Export Documents</h2>
 
 <form method="post" action="/generate">
+<label>Company:</label><br>
+<select name="company">
+    <option value="ESACI">ESACI</option>
+    <option value="MCI">MCI</option>
+</select><br><br>
 
 <div class="box">
 <h3>Invoice</h3>
