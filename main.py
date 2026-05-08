@@ -258,7 +258,7 @@ def save_invoice_from_form(form):
         "products": common["products"],
         "grand_total": common["grand_total"],
         "gross_weight": common["gross_weight"],
-        "form_data": form_to_saved_data(form)
+        "form_data": form_to_saved_data(form),
         "company": form.get("company", "ESACI"),
     }
 
