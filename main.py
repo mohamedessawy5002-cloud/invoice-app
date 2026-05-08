@@ -1282,8 +1282,7 @@ Bank Address:<br><input name="bank_address" value="{{ bank.address }}"><br>
 
 
 def draw_invoice_header(c, title, invoice_no, form, show_po):
-   w, h = base_page(c, form.get("company", "ESACI"))
-
+    w, h = base_page(c, form.get("company", "ESACI"))
     c.setFont("Helvetica-Bold", 14)
     c.drawCentredString(w / 2, 660, title)
 
