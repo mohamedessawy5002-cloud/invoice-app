@@ -1282,7 +1282,7 @@ Bank Address:<br><input name="bank_address" value="{{ bank.address }}"><br>
 
 
 def draw_invoice_header(c, title, invoice_no, form, show_po):
-    w, h = base_page(c)
+   w, h = base_page(c, form.get("company", "ESACI"))
 
     c.setFont("Helvetica-Bold", 14)
     c.drawCentredString(w / 2, 660, title)
@@ -1403,7 +1403,7 @@ def draw_invoice_footer(c, y, form, common, show_bank=True):
     c.drawString(60, y, f"HS Code: {form.get('hs','')}")
 
 def draw_packing_list(c, form, common):
-    w, h = base_page(c)
+    w, h = base_page(c, form.get("company", "ESACI"))
 
     c.setFont("Helvetica-Bold", 14)
     c.drawCentredString(w / 2, 660, "PACKING LIST")
@@ -1482,7 +1482,7 @@ def draw_coa(c, form):
     selected_mr = form.get("selected_mr", "")
     details = mr_data.get(selected_mr, {})
 
-    w, h = base_page(c)
+    w, h = base_page(c, form.get("company", "ESACI"))
 
     c.setFont("Helvetica-Bold", 16)
     c.drawCentredString(w / 2, 650, "Certificate of Analysis")
