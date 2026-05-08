@@ -2182,6 +2182,7 @@ def dashboard(idx):
     <table>
         <tr>
             <th>Proforma No</th>
+            <th>Company</th>
             <th>Customer</th>
             <th>Product</th>
             <th>MR</th>
@@ -2191,6 +2192,7 @@ def dashboard(idx):
         </tr>
         <tr>
             <td>{inv.get('proforma_no','')}</td>
+            <td>{inv.get('company','ESACI')}</td>
             <td>{inv.get('customer','')}</td>
             <td>{', '.join([p.get('name','') for p in inv.get('products', [])])}</td>
             <td>{inv.get('selected_mr','')}</td>
