@@ -35,6 +35,11 @@ USERS = {
         "password": os.getenv("APP_PASS_OMAR"),
         "role": "admin"
     },
+    {
+    "Mzaki": {
+        "password": os.getenv("APP_PASS_MAHMOUD"),
+        "role": "admin"
+    },
     os.getenv("MR_USER"): {
         "password": os.getenv("MR_PASS"),
         "role": "mr_manager"
