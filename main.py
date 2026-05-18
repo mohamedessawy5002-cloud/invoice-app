@@ -430,7 +430,11 @@ FORM_HTML = """
 <head>
 <title>Export Documents</title>
 <style>
-<style>
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 25px;
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -440,7 +444,8 @@ body {
 }
 
 h2 {
-    background: #111827;
+    background:h2 {
+    background: #0f766e;
     color: white;
     padding: 18px 24px;
     border-radius: 14px;
@@ -526,10 +531,22 @@ button[type="button"]:hover {
 
 <div class="box">
 <h3>Invoice</h3>
+<div class="form-grid">
+
+<div>
 Proforma No:<br><input name="proforma_no"><br>
+</div>
+<div>
 Commercial No:<br><input name="commercial_no"><br>
+</div>
+<div>
 Date:<br><input type="date" name="date"><br>
+</div>
+<div>
 PO Number:<br><input name="po"><br>
+</div>
+
+</div>
 
 Delivery Terms:<br>
 <select name="delivery_terms">
