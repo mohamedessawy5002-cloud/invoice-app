@@ -430,12 +430,63 @@ FORM_HTML = """
 <head>
 <title>Export Documents</title>
 <style>
-body { font-family: Arial, sans-serif; margin: 24px; line-height: 1.5; }
-input, select { margin: 4px 0 10px 0; padding: 6px; width: 280px; }
-button { padding: 8px 14px; margin-top: 8px; }
-.products input { width: 180px; }
-.product-line { margin-bottom: 6px; }
-.box { border:1px solid #ddd; padding:15px; margin:15px 0; width: 720px; }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 25px;
+    background: #f4f6f8;
+    color: #222;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.box {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 18px;
+    margin: 18px 0;
+    width: 760px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.box h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+input, select {
+    width: 280px;
+    padding: 8px;
+    margin: 5px 0 12px 0;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+}
+
+button {
+    background: #1f7a4d;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #155c39;
+}
+
+.product-line {
+    margin-bottom: 10px;
+}
+
+.products input {
+    width: 180px;
+}
 </style>
 </head>
 <body>
