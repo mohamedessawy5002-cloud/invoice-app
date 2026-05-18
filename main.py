@@ -430,12 +430,86 @@ FORM_HTML = """
 <head>
 <title>Export Documents</title>
 <style>
-body { font-family: Arial, sans-serif; margin: 24px; line-height: 1.5; }
-input, select { margin: 4px 0 10px 0; padding: 6px; width: 280px; }
-button { padding: 8px 14px; margin-top: 8px; }
-.products input { width: 180px; }
-.product-line { margin-bottom: 6px; }
-.box { border:1px solid #ddd; padding:15px; margin:15px 0; width: 720px; }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 30px;
+    background: linear-gradient(135deg, #eef2f7, #f8fafc);
+    color: #1f2937;
+}
+
+h2 {
+    background: #0f172a;
+    color: white;
+    padding: 18px 24px;
+    border-radius: 14px;
+    margin: 0 0 25px 0;
+}
+
+.box {
+    background: white;
+    border: 1px solid #e5e7eb;
+    padding: 22px;
+    margin: 18px 0;
+    width: 820px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.box h3 {
+    margin-top: 0;
+    color: #111827;
+    border-bottom: 2px solid #f3f4f6;
+    padding-bottom: 10px;
+}
+
+input, select {
+    width: 300px;
+    padding: 10px 12px;
+    margin: 6px 0 14px 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #f9fafb;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #2563eb;
+    background: white;
+}
+
+button {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #15803d;
+}
+
+button[type="button"] {
+    background: #2563eb;
+}
+
+button[type="button"]:hover {
+    background: #1d4ed8;
+}
+
+.product-line {
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.products input {
+    width: 190px;
+}
 </style>
 </head>
 <body>
