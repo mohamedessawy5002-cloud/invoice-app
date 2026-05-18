@@ -430,62 +430,86 @@ FORM_HTML = """
 <head>
 <title>Export Documents</title>
 <style>
+<style>
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 25px;
-    background: #f4f6f8;
-    color: #222;
+    padding: 30px;
+    background: linear-gradient(135deg, #eef2f7, #f8fafc);
+    color: #1f2937;
 }
 
 h2 {
-    margin-bottom: 20px;
+    background: #111827;
+    color: white;
+    padding: 18px 24px;
+    border-radius: 14px;
+    margin: 0 0 25px 0;
 }
 
 .box {
     background: white;
-    border: 1px solid #ddd;
-    padding: 18px;
+    border: 1px solid #e5e7eb;
+    padding: 22px;
     margin: 18px 0;
-    width: 760px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    width: 820px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
 .box h3 {
     margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 8px;
+    color: #111827;
+    border-bottom: 2px solid #f3f4f6;
+    padding-bottom: 10px;
 }
 
 input, select {
-    width: 280px;
-    padding: 8px;
-    margin: 5px 0 12px 0;
-    border: 1px solid #bbb;
-    border-radius: 6px;
+    width: 300px;
+    padding: 10px 12px;
+    margin: 6px 0 14px 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #f9fafb;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #2563eb;
+    background: white;
 }
 
 button {
-    background: #1f7a4d;
+    background: #16a34a;
     color: white;
     border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
+    padding: 11px 20px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
 }
 
 button:hover {
-    background: #155c39;
+    background: #15803d;
+}
+
+button[type="button"] {
+    background: #2563eb;
+}
+
+button[type="button"]:hover {
+    background: #1d4ed8;
 }
 
 .product-line {
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 12px;
     margin-bottom: 10px;
 }
 
 .products input {
-    width: 180px;
+    width: 190px;
 }
 </style>
 </head>
