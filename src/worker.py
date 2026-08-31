@@ -1,4 +1,10 @@
+from flask import Flask
 from workers import wsgi
-from main import app
+
+app = Flask(__name__)
+
+@app.get("/")
+def index():
+    return {"message": "Cloudflare test OK"}
 
 Default = wsgi.entrypoint(app)
