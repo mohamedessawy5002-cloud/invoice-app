@@ -101,6 +101,7 @@ DEFAULT_MR = {
         "total_solid": "100%",
         "characters": "Coarse Lumps",
         "color": "White"
+     },   
     }
 
 from pathlib import Path
