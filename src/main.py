@@ -102,9 +102,14 @@ DEFAULT_MR = {
         "characters": "Coarse Lumps",
         "color": "White"
     }
-}
-COMPANY_BACKGROUNDS = {"ESACI": "bg.png",
-                       "MCI": "bg2.png"
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+COMPANY_BACKGROUNDS = {
+    "ESACI": str(BASE_DIR / "bg.png"),
+    "MCI": str(BASE_DIR / "bg2.png")
 }
 
 def load_json_file(filename, default):
