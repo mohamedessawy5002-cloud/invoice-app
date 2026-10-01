@@ -557,7 +557,7 @@ Name:<br><input id="customer_name" name="name"><br>
 Address:<br><input id="customer_address" name="address"><br>
 Phone:<br><input id="customer_phone" name="phone"><br>
 Fax:<br><input id="customer_fax" name="fax"><br>
-Email:<br><input id="customer_email" name="email"><br>
+Reg Number:<br><input id="customer_email" name="email"><br>
 VAT Number:<br><input id="custmomer_vat"name="vat_number"><br>
 <small>Customer data will be saved/updated automatically when you click Generate.</small>
 </div>
