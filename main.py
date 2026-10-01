@@ -1013,7 +1013,7 @@ Name:<br><input id="customer_name" name="name" value="{{ g('name') }}"><br>
 Address:<br><input id="customer_address" name="address" value="{{ g('address') }}"><br>
 Phone:<br><input id="customer_phone" name="phone" value="{{ g('phone') }}"><br>
 Fax:<br><input id="customer_fax" name="fax" value="{{ g('fax') }}"><br>
-Email:<br><input id="customer_email" name="email" value="{{ g('email') }}"><br>
+Reg Number:<br><input id="customer_email" name="email" value="{{ g('email') }}"><br>
 </div>
 
 <div class="box">
