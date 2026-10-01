@@ -1397,6 +1397,7 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
     reg_number = form.get("email", "")
     if reg_number:
         c.drawString(60, y, f"Reg Number: {reg_number}")
+        y -= 18
 
     if show_po and form.get("po"):
         c.drawString(60, y, f"PO: {form.get('po')}")
