@@ -1186,7 +1186,7 @@ Name:<br><input name="name"><br>
 Address:<br><input name="address"><br>
 Phone:<br><input name="phone"><br>
 Fax:<br><input name="fax"><br>
-Email:<br><input name="email"><br>
+Reg Number:<br><input name="email"><br>
 <button type="submit">Save Customer</button>
 </form>
 </div>
