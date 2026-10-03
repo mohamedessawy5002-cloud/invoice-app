@@ -420,6 +420,7 @@ def get_common_data(form):
         "pallet_qty": round(pallet_qty, 2),
         "pallet_price": round(pallet_price, 2),
         "pallet_total": round(pallet_total, 2),
+        "shipping_expenses_price": round(shipping_expenses_price, 2),
         "shipping_expenses_total": round(shipping_expenses_total, 2),
         "show_shipping_expenses": show_shipping_expenses,
         "bags_count": round(bags_count, 2),
