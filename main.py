@@ -397,6 +397,11 @@ def get_common_data(form):
     show_pallets = palletization == "yes" and pallet_qty > 0
     pallet_total = pallet_qty * pallet_price if show_pallets else 0
 
+    shipping_expenses = form.get("shipping_expenses", "no")
+    shipping_expenses_price = to_float(form.get("shipping_expenses_price"))
+    show_shipping_expenses = shipping_expenses == "yes" and shipping_expenses_price > 0
+    shipping_expenses_total = shipping_expenses_price if show_shipping_expenses else 0
+
     bags_count = to_float(form.get("bags_count"))
     bag_weight_unit = to_float(form.get("bag_weight_unit")) or 0.003
     pallet_weight_unit = to_float(form.get("pallet_weight_unit")) or 0.05
@@ -415,12 +420,14 @@ def get_common_data(form):
         "pallet_qty": round(pallet_qty, 2),
         "pallet_price": round(pallet_price, 2),
         "pallet_total": round(pallet_total, 2),
+        "shipping_expenses_total": round(shipping_expenses_total, 2),
+        "show_shipping_expenses": show_shipping_expenses,
         "bags_count": round(bags_count, 2),
         "bags_weight_total": round(bags_weight_total, 3),
         "pallets_weight_total": round(pallets_weight_total, 3),
         "gross_weight": round(gross_weight, 3),
         "packing_text": packing_text,
-        "grand_total": round(products_total + pallet_total, 2),
+        "grand_total": round(products_total + pallet_total + shipping_expenses_total, 2),
         "expiry_text": add_3_years(form.get("date", ""))
     }
 
@@ -587,6 +594,18 @@ Palletization:<br>
 </select><br>
 Wooden Pallets Qty:<br><input name="pallet_qty"><br>
 Wooden Pallets Price:<br><input name="pallet_price"><br>
+</div>
+<div class="box">
+<h3>Shipping Expenses</h3>
+
+Shipping Expenses:<br>
+<select name="shipping_expenses">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select><br>
+
+Shipping Expenses Price:<br>
+<input name="shipping_expenses_price"><br>
 </div>
 
 <div class="box">
@@ -1055,6 +1074,18 @@ Palletization:<br>
 Wooden Pallets Qty:<br><input name="pallet_qty" value="{{ g('pallet_qty') }}"><br>
 Wooden Pallets Price:<br><input name="pallet_price" value="{{ g('pallet_price') }}"><br>
 </div>
+<div class="box">
+<h3>Shipping Expenses</h3>
+
+Shipping Expenses:<br>
+<select name="shipping_expenses">
+<option value="no" {% if g('shipping_expenses','no') == 'no' %}selected{% endif %}>No</option>
+<option value="yes" {% if g('shipping_expenses') == 'yes' %}selected{% endif %}>Yes</option>
+</select><br>
+
+Shipping Expenses Price:<br>
+<input name="shipping_expenses_price" value="{{ g('shipping_expenses_price') }}"><br>
+</div>
 
 <div class="box">
 <h3>Packing Data</h3>
@@ -1455,6 +1486,10 @@ def draw_invoice_table(c, y, common):
         c.drawString(250, y, str(common["pallet_qty"]))
         c.drawString(330, y, str(common["pallet_price"]))
         c.drawString(430, y, str(common["pallet_total"]))
+        y -= 16
+    if common["show_shipping_expenses"]:
+        c.drawString(80, y, "SHIPPING EXPENSES")
+        c.drawString(430, y, str(common["shipping_expenses_total"]))
         y -= 16
 
     c.line(80, y, 500, y)
