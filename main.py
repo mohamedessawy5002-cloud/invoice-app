@@ -530,7 +530,7 @@ Commercial No:<br><input name="commercial_no"><br>
 Date:<br><input type="date" name="date"><br>
 PO Number:<br><input name="po"><br>
 
-Delivery Terms:<br>
+Delivery Terms:
 <select name="delivery_terms">
 <option value="">Select Delivery Term</option>
 <option value="EXW">EXW</option>
@@ -539,7 +539,11 @@ Delivery Terms:<br>
 <option value="CIF">CIF</option>
 <option value="DAP">DAP</option>
 <option value="DDP">DDP</option>
-</select><br>
+</select>
+
+Place:
+<input name="delivery_place" placeholder="e.g. 10th Ramadan"><br>
+
 </div>
 
 <div class="box">
@@ -989,13 +993,17 @@ Commercial No:<br><input name="commercial_no" value="{{ g('commercial_no') }}"><
 Date:<br><input type="date" name="date" value="{{ g('date') }}"><br>
 PO Number:<br><input name="po" value="{{ g('po') }}"><br>
 
-Delivery Terms:<br>
+Delivery Terms:
 <select name="delivery_terms">
 <option value="">Select Delivery Term</option>
 {% for term in ["EXW","FOB","CFR","CIF","DAP","DDP"] %}
 <option value="{{ term }}" {% if g('delivery_terms') == term %}selected{% endif %}>{{ term }}</option>
 {% endfor %}
-</select><br>
+</select>
+
+Place:
+<input name="delivery_place" value="{{ g('delivery_place') }}" placeholder="e.g. 10th Ramadan"><br>
+
 </div>
 
 <div class="box">
@@ -1460,7 +1468,15 @@ def draw_invoice_table(c, y, common):
 def draw_invoice_footer(c, y, form, common, show_bank=True):
     c.setFont("Helvetica", 10)
 
-    c.drawString(60, y, f"Delivery Terms: {form.get('delivery_terms','')}")
+    delivery_terms = form.get("delivery_terms", "")
+    delivery_place = form.get("delivery_place", "")
+
+    if delivery_place:
+        delivery_text = f"Delivery Terms: {delivery_terms} — {delivery_place}"
+    else:
+        delivery_text = f"Delivery Terms: {delivery_terms}"
+
+    c.drawString(60, y, delivery_text)
     y -= 14
 
     c.drawString(60, y, f"Packing: {common['packing_text']}")
