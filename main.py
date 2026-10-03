@@ -1493,7 +1493,6 @@ def draw_invoice_table(c, y, common):
         y -= 16
     if common["show_shipping_expenses"]:
         c.drawString(80, y, "SHIPPING EXPENSES")
-        c.drawString(330, y, str(common["shipping_expenses_price"]))
         c.drawString(430, y, str(common["shipping_expenses_total"]))
         y -= 16
 
