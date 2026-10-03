@@ -399,9 +399,9 @@ def get_common_data(form):
 
     shipping_expenses = form.get("shipping_expenses", "no")
     shipping_expenses_price = to_float(form.get("shipping_expenses_price"))
-    show_shipping_expenses = shipping_expenses == "yes" and shipping_expenses_price > 0
-    shipping_expenses_total = shipping_expenses_price if show_shipping_expenses else 0
-
+    shipping_expenses_total = to_float(form.get("shipping_expenses_total"))
+    
+    show_shipping_expenses = shipping_expenses == "yes" and shipping_expenses_total > 0
     bags_count = to_float(form.get("bags_count"))
     bag_weight_unit = to_float(form.get("bag_weight_unit")) or 0.003
     pallet_weight_unit = to_float(form.get("pallet_weight_unit")) or 0.05
@@ -606,6 +606,8 @@ Shipping Expenses:<br>
 
 Shipping Expenses Price:<br>
 <input name="shipping_expenses_price"><br>
+Shipping Expenses Total:<br>
+<input name="shipping_expenses_total"><br>
 </div>
 
 <div class="box">
@@ -1085,6 +1087,8 @@ Shipping Expenses:<br>
 
 Shipping Expenses Price:<br>
 <input name="shipping_expenses_price" value="{{ g('shipping_expenses_price') }}"><br>
+Shipping Expenses Total:<br>
+<input name="shipping_expenses_total" value="{{ g('shipping_expenses_total') }}"><br>
 </div>
 
 <div class="box">
