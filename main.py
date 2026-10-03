@@ -1395,7 +1395,7 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
     if "COMMERCIAL" in title.upper():
         vat = form.get("vat_number", "")
         if vat:
-            y -=10
+            y -=7
             y = draw_wrapped(c, 60, y, f"VAT NUMBER: {vat}", max_chars=55)
     if "COMMERCIAL" in title.upper():
         y -= 20
@@ -1406,7 +1406,7 @@ def draw_invoice_header(c, title, invoice_no, form, show_po):
     reg_number = form.get("email", "")
     if reg_number:
         c.drawString(60, y, f"Reg Number: {reg_number}")
-        y -= 18
+        y -= 10
 
     if show_po and form.get("po"):
         c.drawString(60, y, f"PO: {form.get('po')}")
